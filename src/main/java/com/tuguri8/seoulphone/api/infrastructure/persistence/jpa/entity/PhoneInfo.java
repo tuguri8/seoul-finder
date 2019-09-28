@@ -46,6 +46,17 @@ public class PhoneInfo extends BaseEntity {
     // 핸드폰 일련번호
     @Column(name = "SR_NO")
     private String srno;
+    // 카테고리 대분류 ID
+    @Column(name = "PRDT_CL_CD_01")
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Long getId() {
         return id;

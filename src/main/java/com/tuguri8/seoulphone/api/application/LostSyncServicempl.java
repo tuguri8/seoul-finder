@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.tuguri8.seoulphone.api.datatool.opendata.OpenDataClient;
 import com.tuguri8.seoulphone.api.datatool.opendata.dto.SearchLosResponse;
 import com.tuguri8.seoulphone.api.datatool.opendata.dto.SearchPhoneResponse;
+import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.Category;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.LostInfo;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.PhoneInfo;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.LostInfoRepository;
@@ -99,6 +100,7 @@ public class LostSyncServicempl implements LostSyncService {
         phoneInfo.setPrdtClNm(item.getPrdtClNm());
         phoneInfo.setRnum(item.getRnum());
         phoneInfo.setSrno(item.getSrno());
+        phoneInfo.setCategory("PRJ000");
         return phoneInfo;
     }
 
@@ -113,6 +115,7 @@ public class LostSyncServicempl implements LostSyncService {
         lostInfo.setFdYmd(item.getFdYmd());
         lostInfo.setPrdtClNm(item.getPrdtClNm());
         lostInfo.setRnum(item.getRnum());
+        lostInfo.setCategory(Category.getCategoryFromName(item.getPrdtClNm().substring(0, item.getPrdtClNm().indexOf(" >"))).getName());
         return lostInfo;
     }
 }
