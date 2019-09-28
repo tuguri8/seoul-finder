@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,6 +41,7 @@ public class LostSyncServicempl implements LostSyncService {
         this.lostInfoRepository = lostInfoRepository;
     }
 
+    @Scheduled(cron = "0 0 0/8 * * *")
     @Override
     public void syncPhoneInfo() {
         SearchPhoneResponse searchPhoneResponse = openDataClient.searchPhone(key, LOCATION_CODE, getToday(), getToday(), "1");
@@ -61,6 +63,7 @@ public class LostSyncServicempl implements LostSyncService {
         log.info(phoneInfoList.size() + " 개의 핸드폰 분실물 저장완료");
     }
 
+    @Scheduled(cron = "0 0 0/6 * * *")
     @Override
     public void syncLostInfo() {
         SearchLosResponse searchLosResponse = openDataClient.searchLos(key, LOCATION_CODE, getToday(), getToday(), "1");
