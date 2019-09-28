@@ -27,6 +27,14 @@ spring:
       connection-test-query: SELECT 1
       validation-timeout: 5000
 
+  data:
+    web:
+      pageable:
+        page-parameter: pageNo
+        size-parameter: numOfRows
+        default-page-size: 10
+        one-indexed-parameters: true
+
 # feign
 feign:
   client:

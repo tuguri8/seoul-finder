@@ -4,6 +4,7 @@ import com.tuguri8.seoulphone.api.application.LostService;
 import com.tuguri8.seoulphone.api.application.LostSyncService;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.LostInfo;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.PhoneInfo;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +27,16 @@ public class LostController {
     @GetMapping("search")
     public List<LostInfo> getLostInfo(@RequestParam("START_YMD") String startDate,
                                       @RequestParam("END_YMD") String endDate,
-                                      @RequestParam("PRDT_CL_CD_01") String category) {
-        return lostService.getLostInfo(startDate, endDate, category);
+                                      @RequestParam("PRDT_CL_CD_01") String category,
+                                      Pageable pageable) {
+        return lostService.getLostInfo(startDate, endDate, category, pageable);
     }
 
     @GetMapping("phone")
     public List<PhoneInfo> getPhoneInfo(@RequestParam("START_YMD") String startDate,
-                                        @RequestParam("END_YMD") String endDate) {
-        return lostService.getPhoneInfo(startDate, endDate);
+                                        @RequestParam("END_YMD") String endDate,
+                                        Pageable pageable) {
+        return lostService.getPhoneInfo(startDate, endDate, pageable);
     }
 
     @GetMapping("psync")
