@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class LostSyncServicempl implements LostSyncService {
         this.lostInfoRepository = lostInfoRepository;
     }
 
+    @CacheEvict(value = "getPhoneInfo", allEntries = true)
     @Scheduled(cron = "0 0 0/8 * * *")
     @Override
     public void syncPhoneInfo() {
@@ -63,6 +65,7 @@ public class LostSyncServicempl implements LostSyncService {
         log.info(phoneInfoList.size() + " 개의 핸드폰 분실물 저장완료");
     }
 
+    @CacheEvict(value = "getLostInfo", allEntries = true)
     @Scheduled(cron = "0 0 0/6 * * *")
     @Override
     public void syncLostInfo() {

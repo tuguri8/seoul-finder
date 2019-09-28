@@ -4,6 +4,7 @@ import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.LostInfo
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.PhoneInfo;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.LostInfoRepository;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.PhoneInfoRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,14 @@ public class LostServicempl implements LostService {
         this.lostInfoRepository = lostInfoRepository;
     }
 
+    @Cacheable(value = "getLostInfo")
     @Override
     public List<LostInfo> getLostInfo(String startDate, String endDate, String category, Pageable pageable) {
         return lostInfoRepository.findAllByCategoryAndFdYmdBetween(category, stringToLocalDate(startDate), stringToLocalDate(endDate), pageable)
                                  .orElse(Collections.emptyList());
     }
 
+    @Cacheable(value = "getPhoneInfo")
     @Override
     public List<PhoneInfo> getPhoneInfo(String startDate, String endDate, Pageable pageable) {
         return phoneInfoRepository.findAllByFdYmdBetween(stringToLocalDate(startDate), stringToLocalDate(endDate),pageable)
