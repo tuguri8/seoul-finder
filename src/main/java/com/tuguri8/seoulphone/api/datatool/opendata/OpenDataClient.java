@@ -13,12 +13,13 @@ public interface OpenDataClient {
     SearchPhoneResponse searchPhone(@RequestParam("serviceKey") String key,
                                     @RequestParam("FD_LCT_CD") String locationCode,
                                     @RequestParam("START_YMD") String startYmd,
-                                    @RequestParam("END_YMD") String endYmd);
+                                    @RequestParam("END_YMD") String endYmd,
+                                    @RequestParam("pageNo") String pageNo);
 
     @GetMapping("1320000/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd")
     SearchLosResponse searchLos(@RequestParam("serviceKey") String key,
                                 @RequestParam("FD_LCT_CD") String locationCode,
                                 @RequestParam("START_YMD") String startYmd,
                                 @RequestParam("END_YMD") String endYmd,
-                                @RequestParam("PRDT_CL_CD_01") String category);
+                                @RequestParam("pageNo") String pageNo);
 }

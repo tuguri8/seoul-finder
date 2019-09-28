@@ -21,12 +21,12 @@ public class SearchPhoneResponseTest {
 
     @Test
     public void searchPhone() {
-        openDataClient.searchPhone(key, "LCA000", "20190901", "20190927");
+        openDataClient.searchPhone(key, "LCA000", "20190901", "20190927", "1");
     }
 
     @Test
     public void searchLos() {
-        openDataClient.searchLos(key, "LCA000", "20190901", "20190927", "PRH000");
+        openDataClient.searchLos(key, "LCA000", "20190901", "20190927", "1");
     }
 
 }
