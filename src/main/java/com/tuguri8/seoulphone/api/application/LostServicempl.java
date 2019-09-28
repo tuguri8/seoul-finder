@@ -35,7 +35,7 @@ public class LostServicempl implements LostService {
     }
 
     private LocalDate stringToLocalDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd");
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
 
 }
