@@ -1,11 +1,13 @@
 package com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Entity
 @Table(name = "PHONE_INFO")
 public class PhoneInfo extends BaseEntity {
     @Id
