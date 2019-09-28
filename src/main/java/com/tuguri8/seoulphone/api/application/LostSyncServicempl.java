@@ -98,7 +98,7 @@ public class LostSyncServicempl implements LostSyncService {
         phoneInfo.setFdPrdtNm(item.getFdPrdtNm());
         phoneInfo.setFdSbjt(item.getFdSbjt());
         phoneInfo.setFdSn(item.getFdSn());
-        phoneInfo.setFdYmd(item.getFdYmd());
+        phoneInfo.setFdYmd(LocalDate.parse(item.getFdYmd()));
         phoneInfo.setMdcd(item.getMdcd());
         phoneInfo.setPrdtClNm(item.getPrdtClNm());
         phoneInfo.setRnum(item.getRnum());
@@ -115,7 +115,7 @@ public class LostSyncServicempl implements LostSyncService {
         lostInfo.setFdPrdtNm(item.getFdPrdtNm());
         lostInfo.setFdSbjt(item.getFdSbjt());
         lostInfo.setFdSn(item.getFdSn());
-        lostInfo.setFdYmd(item.getFdYmd());
+        lostInfo.setFdYmd(LocalDate.parse(item.getFdYmd()));
         lostInfo.setPrdtClNm(item.getPrdtClNm());
         lostInfo.setRnum(item.getRnum());
         lostInfo.setCategory(Category.getCategoryFromName(item.getPrdtClNm().substring(0, item.getPrdtClNm().indexOf(" >"))).getCode());

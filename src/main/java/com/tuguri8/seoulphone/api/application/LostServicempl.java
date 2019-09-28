@@ -6,6 +6,9 @@ import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.Lost
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.PhoneInfoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,12 +24,18 @@ public class LostServicempl implements LostService {
 
     @Override
     public List<LostInfo> getLostInfo(String startDate, String endDate, String category) {
-        return null;
+        return lostInfoRepository.findAllByCategoryAndFdYmdBetween(category, stringToLocalDate(startDate), stringToLocalDate(endDate))
+                                 .orElse(Collections.emptyList());
     }
 
     @Override
     public List<PhoneInfo> getPhoneInfo(String startDate, String endDate) {
-        return null;
+        return phoneInfoRepository.findAllByFdYmdBetween(stringToLocalDate(startDate), stringToLocalDate(endDate))
+                                  .orElse(Collections.emptyList());
+    }
+
+    private LocalDate stringToLocalDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd");
     }
 
 }
