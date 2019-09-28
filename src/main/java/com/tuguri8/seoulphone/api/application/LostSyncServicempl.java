@@ -115,7 +115,7 @@ public class LostSyncServicempl implements LostSyncService {
         lostInfo.setFdYmd(item.getFdYmd());
         lostInfo.setPrdtClNm(item.getPrdtClNm());
         lostInfo.setRnum(item.getRnum());
-        lostInfo.setCategory(Category.getCategoryFromName(item.getPrdtClNm().substring(0, item.getPrdtClNm().indexOf(" >"))).getName());
+        lostInfo.setCategory(Category.getCategoryFromName(item.getPrdtClNm().substring(0, item.getPrdtClNm().indexOf(" >"))).getCode());
         return lostInfo;
     }
 }
