@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "LOST_INFO")
@@ -33,7 +34,7 @@ public class LostInfo extends BaseEntity {
     private String fdSn;
     // 습득일자
     @Column(name = "FD_YMD")
-    private String fdYmd;
+    private LocalDate fdYmd;
     // 물품분류명
     @Column(name = "PRDT_CLNM")
     private String prdtClNm;
@@ -108,11 +109,11 @@ public class LostInfo extends BaseEntity {
         this.fdSn = fdSn;
     }
 
-    public String getFdYmd() {
+    public LocalDate getFdYmd() {
         return fdYmd;
     }
 
-    public void setFdYmd(String fdYmd) {
+    public void setFdYmd(LocalDate fdYmd) {
         this.fdYmd = fdYmd;
     }
 

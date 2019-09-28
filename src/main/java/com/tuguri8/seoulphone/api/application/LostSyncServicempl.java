@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class LostSyncServicempl implements LostSyncService {
         this.lostInfoRepository = lostInfoRepository;
     }
 
+    @CacheEvict(value = "getPhoneInfo", allEntries = true)
     @Scheduled(cron = "0 0 0/8 * * *")
     @Override
     public void syncPhoneInfo() {
@@ -63,6 +65,7 @@ public class LostSyncServicempl implements LostSyncService {
         log.info(phoneInfoList.size() + " 개의 핸드폰 분실물 저장완료");
     }
 
+    @CacheEvict(value = "getLostInfo", allEntries = true)
     @Scheduled(cron = "0 0 0/6 * * *")
     @Override
     public void syncLostInfo() {
@@ -98,7 +101,7 @@ public class LostSyncServicempl implements LostSyncService {
         phoneInfo.setFdPrdtNm(item.getFdPrdtNm());
         phoneInfo.setFdSbjt(item.getFdSbjt());
         phoneInfo.setFdSn(item.getFdSn());
-        phoneInfo.setFdYmd(item.getFdYmd());
+        phoneInfo.setFdYmd(LocalDate.parse(item.getFdYmd()));
         phoneInfo.setMdcd(item.getMdcd());
         phoneInfo.setPrdtClNm(item.getPrdtClNm());
         phoneInfo.setRnum(item.getRnum());
@@ -115,7 +118,7 @@ public class LostSyncServicempl implements LostSyncService {
         lostInfo.setFdPrdtNm(item.getFdPrdtNm());
         lostInfo.setFdSbjt(item.getFdSbjt());
         lostInfo.setFdSn(item.getFdSn());
-        lostInfo.setFdYmd(item.getFdYmd());
+        lostInfo.setFdYmd(LocalDate.parse(item.getFdYmd()));
         lostInfo.setPrdtClNm(item.getPrdtClNm());
         lostInfo.setRnum(item.getRnum());
         lostInfo.setCategory(Category.getCategoryFromName(item.getPrdtClNm().substring(0, item.getPrdtClNm().indexOf(" >"))).getCode());
