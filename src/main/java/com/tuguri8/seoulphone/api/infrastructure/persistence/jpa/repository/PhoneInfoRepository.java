@@ -10,4 +10,6 @@ import java.util.Optional;
 
 public interface PhoneInfoRepository extends JpaRepository<PhoneInfo, Long> {
     Optional<List<PhoneInfo>> findAllByFdYmdBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
+
+    Optional<List<PhoneInfo>> findAllByFdPrdtNmContaining(String name, Pageable pageable);
 }

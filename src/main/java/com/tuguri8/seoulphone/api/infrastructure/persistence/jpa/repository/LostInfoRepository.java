@@ -10,4 +10,6 @@ import java.util.Optional;
 
 public interface LostInfoRepository extends JpaRepository<LostInfo, Long> {
     Optional<List<LostInfo>> findAllByCategoryAndFdYmdBetween(String category, LocalDate startDate, LocalDate endDate, Pageable pageable);
+
+    Optional<List<LostInfo>> findAllByCategoryAndFdPrdtNmContaining(String category, String name, Pageable pageable);
 }

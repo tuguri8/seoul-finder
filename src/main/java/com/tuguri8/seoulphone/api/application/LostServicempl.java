@@ -27,15 +27,28 @@ public class LostServicempl implements LostService {
     @Cacheable(value = "getLostInfo")
     @Override
     public List<LostInfo> getLostInfo(String startDate, String endDate, String category, Pageable pageable) {
-        return lostInfoRepository.findAllByCategoryAndFdYmdBetween(category, stringToLocalDate(startDate), stringToLocalDate(endDate), pageable)
+        return lostInfoRepository.findAllByCategoryAndFdYmdBetween(category,
+                                                                   stringToLocalDate(startDate),
+                                                                   stringToLocalDate(endDate),
+                                                                   pageable)
                                  .orElse(Collections.emptyList());
     }
 
     @Cacheable(value = "getPhoneInfo")
     @Override
     public List<PhoneInfo> getPhoneInfo(String startDate, String endDate, Pageable pageable) {
-        return phoneInfoRepository.findAllByFdYmdBetween(stringToLocalDate(startDate), stringToLocalDate(endDate),pageable)
+        return phoneInfoRepository.findAllByFdYmdBetween(stringToLocalDate(startDate), stringToLocalDate(endDate), pageable)
                                   .orElse(Collections.emptyList());
+    }
+
+    @Override
+    public List<LostInfo> searchLostInfo(String category, String name, Pageable pageable) {
+        return lostInfoRepository.findAllByCategoryAndFdPrdtNmContaining(category, name, pageable).orElse(Collections.emptyList());
+    }
+
+    @Override
+    public List<PhoneInfo> searchPhoneInfo(String name, Pageable pageable) {
+        return phoneInfoRepository.findAllByFdPrdtNmContaining(name, pageable).orElse(Collections.emptyList());
     }
 
     private LocalDate stringToLocalDate(String date) {

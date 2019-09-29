@@ -20,11 +20,12 @@ public class LostController {
     private final LostSyncService lostSyncService;
     private final LostService lostService;
 
-    public LostController(LostSyncService lostSyncService, LostService lostService) {this.lostSyncService = lostSyncService;
+    public LostController(LostSyncService lostSyncService, LostService lostService) {
+        this.lostSyncService = lostSyncService;
         this.lostService = lostService;
     }
 
-    @GetMapping("search")
+    @GetMapping("other/list")
     public List<LostInfo> getLostInfo(@RequestParam("START_YMD") String startDate,
                                       @RequestParam("END_YMD") String endDate,
                                       @RequestParam("PRDT_CL_CD_01") String category,
@@ -32,11 +33,24 @@ public class LostController {
         return lostService.getLostInfo(startDate, endDate, category, pageable);
     }
 
-    @GetMapping("phone")
+    @GetMapping("other/search")
+    public List<LostInfo> searchLostInfo(@RequestParam("category") String category,
+                                         @RequestParam("name") String name,
+                                         Pageable pageable) {
+        return lostService.searchLostInfo(category, name, pageable);
+    }
+
+    @GetMapping("phone/list")
     public List<PhoneInfo> getPhoneInfo(@RequestParam("START_YMD") String startDate,
                                         @RequestParam("END_YMD") String endDate,
                                         Pageable pageable) {
         return lostService.getPhoneInfo(startDate, endDate, pageable);
+    }
+
+    @GetMapping("phone/search")
+    public List<PhoneInfo> searchPhoneInfo(@RequestParam("name") String name,
+                                           Pageable pageable) {
+        return lostService.searchPhoneInfo(name, pageable);
     }
 
     @GetMapping("psync")
@@ -48,4 +62,5 @@ public class LostController {
     public void syncOther() {
         lostSyncService.syncLostInfo();
     }
+
 }

@@ -51,6 +51,7 @@ public class LostSyncServicempl implements LostSyncService {
         List<PhoneInfo> phoneInfoList = Lists.newArrayList();
         for (int i = 1; i <= pageSize; i++) {
             SearchPhoneResponse phoneResponse = openDataClient.searchPhone(key, LOCATION_CODE, getToday(), getToday(), String.valueOf(i));
+            log.info(i + " / " + pageSize + " 페이지");
             phoneInfoList.addAll(phoneResponse.getBody()
                                               .getItems()
                                               .getItem()
@@ -74,6 +75,7 @@ public class LostSyncServicempl implements LostSyncService {
         List<LostInfo> lostInfoList = Lists.newArrayList();
         for (int i = 1; i <= pageSize; i++) {
             SearchLosResponse losResponse = openDataClient.searchLos(key, LOCATION_CODE, getToday(), getToday(), String.valueOf(i));
+            log.info(i + " / " + pageSize + " 페이지");
             lostInfoList.addAll(losResponse.getBody()
                                            .getItems()
                                            .getItem()
