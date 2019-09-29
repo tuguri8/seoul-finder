@@ -1,7 +1,9 @@
 package com.tuguri8.seoulphone.api.interfaces;
 
+import com.tuguri8.seoulphone.api.application.LostInfoListResponse;
 import com.tuguri8.seoulphone.api.application.LostService;
 import com.tuguri8.seoulphone.api.application.LostSyncService;
+import com.tuguri8.seoulphone.api.application.PhoneInfoListResponse;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.LostInfo;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.PhoneInfo;
 import org.springframework.data.domain.Pageable;
@@ -26,29 +28,29 @@ public class LostController {
     }
 
     @GetMapping("other/list")
-    public List<LostInfo> getLostInfo(@RequestParam("START_YMD") String startDate,
-                                      @RequestParam("END_YMD") String endDate,
-                                      @RequestParam("PRDT_CL_CD_01") String category,
-                                      Pageable pageable) {
+    public LostInfoListResponse getLostInfo(@RequestParam("START_YMD") String startDate,
+                                            @RequestParam("END_YMD") String endDate,
+                                            @RequestParam("PRDT_CL_CD_01") String category,
+                                            Pageable pageable) {
         return lostService.getLostInfo(startDate, endDate, category, pageable);
     }
 
     @GetMapping("other/search")
-    public List<LostInfo> searchLostInfo(@RequestParam("category") String category,
+    public LostInfoListResponse searchLostInfo(@RequestParam("category") String category,
                                          @RequestParam("name") String name,
                                          Pageable pageable) {
         return lostService.searchLostInfo(category, name, pageable);
     }
 
     @GetMapping("phone/list")
-    public List<PhoneInfo> getPhoneInfo(@RequestParam("START_YMD") String startDate,
-                                        @RequestParam("END_YMD") String endDate,
-                                        Pageable pageable) {
+    public PhoneInfoListResponse getPhoneInfo(@RequestParam("START_YMD") String startDate,
+                                              @RequestParam("END_YMD") String endDate,
+                                              Pageable pageable) {
         return lostService.getPhoneInfo(startDate, endDate, pageable);
     }
 
     @GetMapping("phone/search")
-    public List<PhoneInfo> searchPhoneInfo(@RequestParam("name") String name,
+    public PhoneInfoListResponse searchPhoneInfo(@RequestParam("name") String name,
                                            Pageable pageable) {
         return lostService.searchPhoneInfo(name, pageable);
     }

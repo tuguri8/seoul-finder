@@ -4,7 +4,11 @@ import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.LostInfo
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.entity.PhoneInfo;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.LostInfoRepository;
 import com.tuguri8.seoulphone.api.infrastructure.persistence.jpa.repository.PhoneInfoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ import java.util.List;
 
 @Service
 public class LostServicempl implements LostService {
+    private static final Logger log = LoggerFactory.getLogger(LostServicempl.class);
     private final PhoneInfoRepository phoneInfoRepository;
     private final LostInfoRepository lostInfoRepository;
 
@@ -26,29 +31,51 @@ public class LostServicempl implements LostService {
 
     @Cacheable(value = "getLostInfo")
     @Override
-    public List<LostInfo> getLostInfo(String startDate, String endDate, String category, Pageable pageable) {
-        return lostInfoRepository.findAllByCategoryAndFdYmdBetween(category,
-                                                                   stringToLocalDate(startDate),
-                                                                   stringToLocalDate(endDate),
-                                                                   pageable)
-                                 .orElse(Collections.emptyList());
+    public LostInfoListResponse getLostInfo(String startDate, String endDate, String category, Pageable pageable) {
+        LostInfoListResponse lostInfoListResponse = new LostInfoListResponse();
+        List<LostInfo> lostInfoList = lostInfoRepository.findAllByCategoryAndFdYmdBetween(category,
+                                                                                          stringToLocalDate(startDate),
+                                                                                          stringToLocalDate(endDate),
+                                                                                          pageable)
+                                                        .orElse(Collections.emptyList());
+        lostInfoListResponse.setItems(lostInfoList);
+        lostInfoListResponse.setTotalCount(lostInfoRepository.countByCategoryAndFdYmdBetween(category,
+                                                                                             stringToLocalDate(startDate),
+                                                                                             stringToLocalDate(endDate)));
+        return lostInfoListResponse;
     }
 
     @Cacheable(value = "getPhoneInfo")
     @Override
-    public List<PhoneInfo> getPhoneInfo(String startDate, String endDate, Pageable pageable) {
-        return phoneInfoRepository.findAllByFdYmdBetween(stringToLocalDate(startDate), stringToLocalDate(endDate), pageable)
-                                  .orElse(Collections.emptyList());
+    public PhoneInfoListResponse getPhoneInfo(String startDate, String endDate, Pageable pageable) {
+        PhoneInfoListResponse phoneInfoListResponse = new PhoneInfoListResponse();
+        List<PhoneInfo> phoneInfoList = phoneInfoRepository.findAllByFdYmdBetween(stringToLocalDate(startDate),
+                                                                                  stringToLocalDate(endDate),
+                                                                                  pageable)
+                                                           .orElse(Collections.emptyList());
+        phoneInfoListResponse.setItems(phoneInfoList);
+        phoneInfoListResponse.setTotalCount(phoneInfoRepository.countByFdYmdBetween(stringToLocalDate(startDate),
+                                                                                    stringToLocalDate(endDate)));
+        return phoneInfoListResponse;
     }
 
     @Override
-    public List<LostInfo> searchLostInfo(String category, String name, Pageable pageable) {
-        return lostInfoRepository.findAllByCategoryAndFdPrdtNmContaining(category, name, pageable).orElse(Collections.emptyList());
+    public LostInfoListResponse searchLostInfo(String category, String name, Pageable pageable) {
+        LostInfoListResponse lostInfoListResponse = new LostInfoListResponse();
+        List<LostInfo> lostInfoList = lostInfoRepository.findAllByCategoryAndFdPrdtNmContaining(category, name, pageable)
+                                                        .orElse(Collections.emptyList());
+        lostInfoListResponse.setItems(lostInfoList);
+        lostInfoListResponse.setTotalCount(lostInfoRepository.countByCategoryAndFdPrdtNmContaining(category, name));
+        return lostInfoListResponse;
     }
 
     @Override
-    public List<PhoneInfo> searchPhoneInfo(String name, Pageable pageable) {
-        return phoneInfoRepository.findAllByFdPrdtNmContaining(name, pageable).orElse(Collections.emptyList());
+    public PhoneInfoListResponse searchPhoneInfo(String name, Pageable pageable) {
+        PhoneInfoListResponse phoneInfoListResponse = new PhoneInfoListResponse();
+        List<PhoneInfo> phoneInfoList = phoneInfoRepository.findAllByFdPrdtNmContaining(name, pageable).orElse(Collections.emptyList());
+        phoneInfoListResponse.setItems(phoneInfoList);
+        phoneInfoListResponse.setTotalCount(phoneInfoRepository.countByFdPrdtNmContaining(name));
+        return phoneInfoListResponse;
     }
 
     private LocalDate stringToLocalDate(String date) {
