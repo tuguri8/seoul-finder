@@ -7,6 +7,24 @@ import java.util.List;
 public class LostInfoListResponse {
     List<LostInfo> items;
     private Long totalCount;
+    private Integer numOfRows;
+    private Integer pageNo;
+
+    public Integer getNumOfRows() {
+        return numOfRows;
+    }
+
+    public void setNumOfRows(Integer numOfRows) {
+        this.numOfRows = numOfRows;
+    }
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
 
     public List<LostInfo> getItems() {
         return items;

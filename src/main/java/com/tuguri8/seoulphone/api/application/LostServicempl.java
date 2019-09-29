@@ -42,6 +42,8 @@ public class LostServicempl implements LostService {
         lostInfoListResponse.setTotalCount(lostInfoRepository.countByCategoryAndFdYmdBetween(category,
                                                                                              stringToLocalDate(startDate),
                                                                                              stringToLocalDate(endDate)));
+        lostInfoListResponse.setPageNo(pageable.getPageNumber() + 1);
+        lostInfoListResponse.setNumOfRows(pageable.getPageSize());
         return lostInfoListResponse;
     }
 
@@ -56,6 +58,8 @@ public class LostServicempl implements LostService {
         phoneInfoListResponse.setItems(phoneInfoList);
         phoneInfoListResponse.setTotalCount(phoneInfoRepository.countByFdYmdBetween(stringToLocalDate(startDate),
                                                                                     stringToLocalDate(endDate)));
+        phoneInfoListResponse.setPageNo(pageable.getPageNumber() + 1);
+        phoneInfoListResponse.setNumOfRows(pageable.getPageSize());
         return phoneInfoListResponse;
     }
 
@@ -66,6 +70,8 @@ public class LostServicempl implements LostService {
                                                         .orElse(Collections.emptyList());
         lostInfoListResponse.setItems(lostInfoList);
         lostInfoListResponse.setTotalCount(lostInfoRepository.countByCategoryAndFdPrdtNmContaining(category, name));
+        lostInfoListResponse.setPageNo(pageable.getPageNumber() + 1);
+        lostInfoListResponse.setNumOfRows(pageable.getPageSize());
         return lostInfoListResponse;
     }
 
@@ -75,6 +81,8 @@ public class LostServicempl implements LostService {
         List<PhoneInfo> phoneInfoList = phoneInfoRepository.findAllByFdPrdtNmContaining(name, pageable).orElse(Collections.emptyList());
         phoneInfoListResponse.setItems(phoneInfoList);
         phoneInfoListResponse.setTotalCount(phoneInfoRepository.countByFdPrdtNmContaining(name));
+        phoneInfoListResponse.setPageNo(pageable.getPageNumber() + 1);
+        phoneInfoListResponse.setNumOfRows(pageable.getPageSize());
         return phoneInfoListResponse;
     }
 
